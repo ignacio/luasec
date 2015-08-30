@@ -191,9 +191,9 @@ set PATH=%LR_EXTERNAL%;%PATH%
 cd %APPVEYOR_BUILD_FOLDER%
 set _openssl_underscores=%OPENSSL_VER:.=_%
 set _openssl_filename=Win%arch%OpenSSL-%_openssl_underscores%.exe
-if not exist "build\downloads\%_openssl_filename%" (
+if not exist "downloads\%_openssl_filename%" (
 	echo Downloading OpenSSL %OPENSSL_VER% %arch% bits...
-	curl --silent --fail --max-time 120 --connect-timeout 30 --output "build\downloads\%_openssl_filename%" "http://slproweb.com/download/%_openssl_filename%"
+	curl --silent --fail --max-time 120 --connect-timeout 30 --output "downloads\%_openssl_filename%" "http://slproweb.com/download/%_openssl_filename%"
 	echo Done downloading.
 ) else (
 	echo OpenSSL %arch% bits already downloaded
@@ -202,7 +202,7 @@ if not exist "build\downloads\%_openssl_filename%" (
 set OPENSSL_ROOT_DIR=C:\OpenSSL-Win%arch%
 if not exist "%OPENSSL_ROOT_DIR%" (
 	echo Installing OpenSSL %OPENSSL_VER% %arch% bits...
-	build\downloads\%_openssl_filename% /silent /verysilent /sp- /suppressmsgboxes
+	downloads\%_openssl_filename% /silent /verysilent /sp- /suppressmsgboxes
 	echo Done installing.
 ) else (
 	echo OpenSSL %arch% bits already installed
