@@ -30,7 +30,9 @@ cache:
   - C:\OpenSSL-Win64 -> appveyor.yml
 
 init:
-- dir /s c:\mingw
+#- dir /s c:\mingw
+- mingw-get update
+- mingw-get upgrade
 
 install:
 # Make compiler command line tools available
