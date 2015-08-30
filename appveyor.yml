@@ -1,23 +1,46 @@
-version: 1.0.{build}
-
-os:
-- Windows Server 2012 R2
-- MinGW
+version: 0.0.6.{build}-test
 
 shallow_clone: true
 
+environment:
+  LUAROCKS_VER: 2.2.2
+  matrix:
+  - LUA_VER: 5.1.5
+  - LUA_VER: 5.2.4
+    NOCOMPAT: true
+  - LUA_VER: 5.3.1
+    NOCOMPAT: true
+  - LJ_VER: 2.0.4
+
+# Abuse this section so we can have a matrix with different Compiler versions
+# Is there a better way? Like injecting an array in the matrix?
+configuration:
+ - 2013
+ - MinGW
+
+platform:
+  - x86
+  - x64
+
+init:
+
 install:
-- appveyor DownloadFile http://slproweb.com/download/Win32OpenSSL-1_0_2a.exe
-- Win32OpenSSL-1_0_2a.exe /silent /verysilent /sp- /suppressmsgboxes
-- appveyor DownloadFile http://keplerproject.github.io/luarocks/releases/luarocks-2.2.1-win32.zip
-- 7z x luarocks-2.2.1-win32.zip
-- cd luarocks-2.2.1-win32
-- install.bat /L /Q
-- ps: $env:Path +=";C:\Program Files (x86)\LuaRocks\2.2"
-- set LUA_PATH="C:\Program Files (x86)\LuaRocks\2.2\lua\?.lua;C:\Program Files (x86)\LuaRocks\2.2\lua\?\init.lua;C:\Program Files (x86)\LuaRocks\systree\share\lua\5.1\?.lua;C:\Program Files (x86)\LuaRocks\systree\share\lua\5.1\?\init.lua"
-- set LUA_CPATH="C:\Program Files (x86)\LuaRocks\systree\lib\lua\5.1\?.dll"
-- cd ..
+# Make compiler command line tools available
+- call .appveyor\set_compiler_env.bat
+# Get Lua sources
+- call .appveyor\install.bat
+
+before_build:
 
 build_script:
-- '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86'
-- luarocks make luasec-0.5-3.rockspec OPENSSL_INCDIR=c:\OpenSSL-Win32\include OPENSSL_LIBDIR=C:\OpenSSL-Win32\lib
+- luarocks make luasec-0.6alpha-2.rockspec
+
+before_test:
+
+test_script:
+- echo "Testing..."
+- call lua -v
+
+on_success:
+- echo "Generating artifacts"
+- call .appveyor\artifacts.bat
