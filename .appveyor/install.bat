@@ -49,6 +49,11 @@ if not defined LR_ROOT set LR_ROOT=%LUAROCKS_INSTALL%\%LUAROCKS_SHORTV%
 if not defined LR_SYSTREE set LR_SYSTREE=%LUAROCKS_INSTALL%\systree
 
 if not defined SEVENZIP set SEVENZIP=7z
+if not defined OPENSSL_VER set OPENSSL_VER=1.0.2c
+
+:: Determine if arch is 32/64 bits
+if /I "%platform%"=="x86" ( set arch=32) else ( set arch=64)
+
 ::
 :: =========================================================
 
@@ -180,6 +185,31 @@ if not exist "%LR_EXTERNAL%" (
 )
 
 set PATH=%LR_EXTERNAL%;%PATH%
+
+
+:: Download and install OpenSSL
+cd %APPVEYOR_BUILD_FOLDER%
+set _openssl_underscores=%OPENSSL_VER:.=_%
+set _openssl_filename=Win%arch%OpenSSL-%_openssl_underscores%.exe
+if not exist "build\downloads\%_openssl_filename%" (
+	echo Downloading OpenSSL %OPENSSL_VER% %arch% bits...
+	curl --silent --fail --max-time 120 --connect-timeout 30 --output "build\downloads\%_openssl_filename%" "http://slproweb.com/download/%_openssl_filename%"
+	echo Done downloading.
+) else (
+	echo OpenSSL %arch% bits already downloaded
+)
+
+set OPENSSL_ROOT_DIR=C:\OpenSSL-Win%arch%
+if not exist "%OPENSSL_ROOT_DIR%" (
+	echo Installing OpenSSL %OPENSSL_VER% %arch% bits...
+	build\downloads\%_openssl_filename% /silent /verysilent /sp- /suppressmsgboxes
+	echo Done installing.
+) else (
+	echo OpenSSL %arch% bits already installed
+)
+
+set PATH=%OPENSSL_ROOT_DIR%\bin;%PATH%
+
 
 :: Exports the following variables:
 :: (beware of whitespace between & and ^ below)
