@@ -46,7 +46,7 @@ before_test:
 
 test_script:
 - echo "Testing..."
-- call lua -lssl
+- call lua -e"require'ssl'"
 
 on_success:
 #- echo "Generating artifacts"
