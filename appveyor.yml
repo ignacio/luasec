@@ -6,22 +6,22 @@ environment:
   LUAROCKS_VER: 2.2.2
   OPENSSL_VER: 1.0.2d
   matrix:
-  - LUA_VER: 5.1.5
-  - LUA_VER: 5.2.4
-    NOCOMPAT: true
+  # - LUA_VER: 5.1.5
+  # - LUA_VER: 5.2.4
+  #   NOCOMPAT: true
   - LUA_VER: 5.3.1
     NOCOMPAT: true
-  - LJ_VER: 2.0.4
+  # - LJ_VER: 2.0.4
 
 # Abuse this section so we can have a matrix with different Compiler versions
 # Is there a better way? Like injecting an array in the matrix?
 configuration:
- - 2013
+ #- 2013
  - MinGW
 
 platform:
-  - x86
-  - x64
+  # - x86
+  # - x64
 
 cache:
   - c:\lua -> appveyor.yml
@@ -34,6 +34,7 @@ init:
 install:
 # Make compiler command line tools available
 - call .appveyor\set_compiler_env.bat
+- type c:\mingw\include\sdkddkver.h
 # Get Lua sources
 - call .appveyor\install.bat
 
