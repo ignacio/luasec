@@ -40,7 +40,7 @@ install:
 before_build:
 
 build_script:
-- luarocks make luasec-0.6alpha-2.rockspec OPENSSL_DIR=c:\OpenSSL-Win32
+- call .appveyor\build.bat
 
 before_test:
 
@@ -49,5 +49,5 @@ test_script:
 - call lua -v
 
 on_success:
-- echo "Generating artifacts"
-- call .appveyor\artifacts.bat
+#- echo "Generating artifacts"
+#- call .appveyor\artifacts.bat
