@@ -20,7 +20,7 @@ configuration:
  - MinGW
 
 platform:
-  # - x86
+  - x86
   # - x64
 
 cache:
