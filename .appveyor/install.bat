@@ -193,7 +193,7 @@ set _openssl_underscores=%OPENSSL_VER:.=_%
 set _openssl_filename=Win%arch%OpenSSL-%_openssl_underscores%.exe
 if not exist "downloads\%_openssl_filename%" (
 	echo Downloading OpenSSL %OPENSSL_VER% %arch% bits...
-	curl --silent --fail --max-time 120 --connect-timeout 30 --output "downloads\%_openssl_filename%" "http://slproweb.com/download/%_openssl_filename%"
+	curl --fail --max-time 120 --connect-timeout 30 --output "downloads\%_openssl_filename%" "http://slproweb.com/download/%_openssl_filename%"
 	echo Done downloading.
 ) else (
 	echo OpenSSL %arch% bits already downloaded
