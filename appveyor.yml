@@ -31,12 +31,12 @@ cache:
 
 init:
 #- dir /s c:\mingw
-- mingw-get update
-- mingw-get upgrade
 
 install:
 # Make compiler command line tools available
 - call .appveyor\set_compiler_env.bat
+- mingw-get update
+- mingw-get upgrade
 - type c:\mingw\include\sdkddkver.h
 # Get Lua sources
 - call .appveyor\install.bat
