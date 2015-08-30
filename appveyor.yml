@@ -40,7 +40,7 @@ install:
 before_build:
 
 build_script:
-- luarocks make luasec-0.6alpha-2.rockspec
+- luarocks make luasec-0.6alpha-2.rockspec OPENSSL_DIR=c:\OpenSSL-Win32
 
 before_test:
 
